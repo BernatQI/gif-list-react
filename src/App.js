@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
 import './App.css';
-import GifsList from './components/GifsList';
 import { Link, Route } from 'wouter';
+import Home from './pages/Home';
+import Detail from './pages/Detail';
+import SearchResults from './pages/SearchResults';
+import Context from './context/StaticContext';
+import { GifsContextProvider } from './context/GifContext';
 
 function App() {
 
   return (
-    <div className="App">
-      <section className='main-content'>
-        <h1><a href='http://localhost:3000'>Gifs List App</a></h1>
-        <Link to='/gif/seo'>SEO Gifs</Link>
-        <Link to='/gif/dev'>Dev Gifs</Link>
-        <Link to='/gif/javascript'>JavaScript Gifs</Link>
-        <Route
-          component={GifsList}
-          path='/gif/:keyword' />
-      </section>
-    </div>
+    <Context.Provider value={
+      {
+        name: 'BernatQi',
+        subscibe: true
+      }
+    }>
+      <div className="App">
+        <section className='main-content'>
+          <h1 className="App-title"><Link to={'/'}>Gifs List App</Link></h1>
+          <GifsContextProvider>
+            <Route
+              component={Home}
+              path='/' />
+            <Route
+              component={SearchResults}
+              path='/search/:keyword' />
+            <Route
+              component={Detail}
+              path='/gif/:id' />
+          </GifsContextProvider>
+        </section>
+      </div>
+    </Context.Provider>
   );
 }
 
